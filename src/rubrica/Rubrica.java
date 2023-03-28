@@ -1,5 +1,8 @@
 package rubrica;
 
+import rubrica.models.Contatto;
+import rubrica.models.Indirizzo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +19,7 @@ public class Rubrica {
 
     public static void main(String[] args) {
         List<Contatto> rubrica = new ArrayList<>();
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in).useDelimiter("\n");
 
 
         boolean running = true;
@@ -47,9 +50,30 @@ public class Rubrica {
                     String cognome = input.next();
                     System.out.println("Inserisci il numero di telefono del contatto:");
                     String numeroTelefono = input.next();
-                    Contatto contatto = new Contatto(name, cognome, numeroTelefono, new Indirizzo(String via, int numeroCivico, String cap))
+
+
+                    Indirizzo indirizzo = new Indirizzo();
+
+
+                    System.out.println("Inserisci la via:");
+                    String via = input.next();
+                    indirizzo.setVia(via);
+                    System.out.println("Inserisci il numero civico");
+                   indirizzo.setNumeroCivico(input.next());
+                    System.out.println("Inserisci il cap");
+                    indirizzo.setCap(input.next());
+                    System.out.println("Inserisci la città");
+                    indirizzo.setCitta(input.next());
+                    System.out.println("Inserisci la provincia");
+                    indirizzo.setProvincia(input.next());
+
+
+
+
+
+                    Contatto contatto = new Contatto(name, cognome, numeroTelefono, indirizzo);
                     rubrica.add(contatto);
-                    System.out.println("rubrica.Contatto aggiunto!");
+                    System.out.println("rubrica.models.Contatto aggiunto!");
                     break;
                 case 2:
                     System.out.println("Inerisci il nome del contatto:");
@@ -92,43 +116,9 @@ public class Rubrica {
     }
 }
 
-class Contatto {
-    private String nome;
-    private String cognome;
-    private String telefono;
-
-    private Indirizzo indirizzo;
-
-    public Contatto(String nome, String cognome, String telefono, Indirizzo indirizzo) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.telefono = telefono;
-        this.indirizzo = indirizzo;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getCognome() {
-        return cognome;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public Indirizzo getIndirizzo() {
-        return indirizzo;
-    }
-
-    public String toString() {
-        return nome + " " + cognome + ": " + telefono;
-    }
 
 
 
-}
 
 
 
