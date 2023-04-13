@@ -1,5 +1,7 @@
 package rubrica.models;
 
+import rubrica.enums.Province;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class Indirizzo {
     private String numeroCivico;
     private String cap;
     private String citta;
-    private String provincia;
+    private Province provincia;
 
     private static List<String> province = new ArrayList<>();
 
@@ -67,27 +69,22 @@ public class Indirizzo {
         this.citta = citta;
     }
 
-    public String getProvincia() {
+    public Province getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(String provincia) {
-        if (province.contains(provincia)) {
-            this.provincia = provincia;
-        } else {
-            System.out.println("Hai inserito una provincia non valida");
-        }
+    public void setProvincia(Province provincia) {
+        this.provincia = provincia;
     }
 
     @Override
     public String toString() {
-        return "Indirizzo{" +
-                "via='" + via + '\'' +
-                ", numeroCivico='" + numeroCivico + '\'' +
-                ", cap='" + cap + '\'' +
-                ", citta='" + citta + '\'' +
-                ", provincia='" + provincia + '\'' +
-                '}';
+        return
+                " " + via + '\'' +
+                " " + numeroCivico + '\'' +
+                " " + cap + '\'' +
+                " " + citta + '\'' +
+                " " + provincia + '\'';
     }
 
     @Override

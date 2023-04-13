@@ -30,8 +30,13 @@ public class Contatto {
         return indirizzo;
     }
 
+    @Override
     public String toString() {
-        return nome + " " + cognome + ": " + telefono;
+        return
+                "nome " + nome + '\'' +
+                ", cognome " + cognome + '\'' +
+                ", telefono " + telefono + '\'' +
+                ", indirizzo " + indirizzo
+                ;
     }
-
 }

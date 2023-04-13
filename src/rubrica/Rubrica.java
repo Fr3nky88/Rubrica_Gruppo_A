@@ -1,25 +1,66 @@
 package rubrica;
 
+import rubrica.enums.Province;
 import rubrica.models.Contatto;
 import rubrica.models.Indirizzo;
 
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
-/**
- * Scrivi un programma Java che simuli una rubrica. L'utente deve essere in grado di aggiungere, cercare, visualizzare e cancellare contatti dalla rubrica.
- * <p>
- * BONUS: Ordina lista
- * Ricerca contatti per iniziale cognome
- */
 public class Rubrica {
+    private static final Path CARTELLA = Path.of(System.getProperty("user.home"), "rubrica");
 
-    public static void main(String[] args) {
-        List<Contatto> rubrica = new ArrayList<>();
-        Scanner input = new Scanner(System.in).useDelimiter("\n");
+
+    private List<Contatto> rubrica;
+    private Scanner input;
+    private Path fileRubrica;
+
+    public Rubrica(String nomeFile) throws IOException {
+        this.fileRubrica = Path.of(CARTELLA.toString(), nomeFile);
+        this.rubrica = new ArrayList<>();
+        this.input = new Scanner(System.in).useDelimiter("\n");
+        createFile();
+        readContatti();
+        //TODO scrivere nuova linea contatto nel file creato
+
+    }
+
+    public void createFile() throws IOException {
+        try{
+            Files.createDirectory(CARTELLA);
+            Files.createFile(fileRubrica);
+        }
+        catch (FileAlreadyExistsException exception)
+        {
+            System.out.println("il file esiste già");
+        }
+
+    }
+
+    public void readContatti() throws IOException {
+        List<String>linee = Files.readAllLines(fileRubrica);
+        for(String linea : linee) {
+            String[] campiContatto = linea.split(",");
+            Indirizzo i = new Indirizzo();
+            i.setVia(campiContatto[3]);
+            i.setNumeroCivico(campiContatto[4]);
+            i.setCap(campiContatto[5]);
+            i.setCitta(campiContatto[6]);
+            i.setProvincia(Province.valueOf(campiContatto[7]));
+            Contatto c = new Contatto(campiContatto[0], campiContatto[1], campiContatto[2],i);
+            rubrica.add(c);
+
+        }
+    }
+
+    public void start(){
+
+
 
 
         boolean running = true;
@@ -59,13 +100,23 @@ public class Rubrica {
                     String via = input.next();
                     indirizzo.setVia(via);
                     System.out.println("Inserisci il numero civico");
-                   indirizzo.setNumeroCivico(input.next());
+                    indirizzo.setNumeroCivico(input.next());
                     System.out.println("Inserisci il cap");
                     indirizzo.setCap(input.next());
                     System.out.println("Inserisci la città");
                     indirizzo.setCitta(input.next());
                     System.out.println("Inserisci la provincia");
-                    indirizzo.setProvincia(input.next());
+                    do
+                    {
+                        try {
+                            indirizzo.setProvincia(Province.valueOf(input.next().toUpperCase()));
+                        }  catch (IllegalArgumentException exception) {
+                            System.out.println("La provincia che hai inserito non è valida, riprova, puoi scegliere fra queste province");
+                            for(Province provincia : Province.values()) {
+                                System.out.println(provincia);
+                            }
+                        }
+                    } while (indirizzo.getProvincia() == null);
 
 
 
@@ -112,15 +163,6 @@ public class Rubrica {
                     break;
             }
         }
-
     }
+
 }
-
-
-
-
-
-
-
-
-
