@@ -47,7 +47,13 @@ public class Rubrica {
                     String cognome = input.next();
                     System.out.println("Inserisci il numero di telefono del contatto:");
                     String numeroTelefono = input.next();
-                    Contatto contatto = new Contatto(name, cognome, numeroTelefono, new Indirizzo(String via, int numeroCivico, String cap))
+                    System.out.println("Inserisci la via del contatto");
+                    String viaContatto= input.next();
+                    System.out.println("Inserisci il numero civico del contatto");
+                    int numCivico=input.nextInt();
+                    System.out.println("Inserisci il cap della città");
+                    String capCitta=input.next();
+                    Contatto contatto = new Contatto(name, cognome, numeroTelefono, new Indirizzo(viaContatto,numCivico,capCitta));
                     rubrica.add(contatto);
                     System.out.println("rubrica.Contatto aggiunto!");
                     break;
