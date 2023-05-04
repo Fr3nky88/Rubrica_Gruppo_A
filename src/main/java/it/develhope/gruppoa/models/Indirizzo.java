@@ -1,6 +1,6 @@
-package rubrica.models;
+package it.develhope.gruppoa.models;
 
-import rubrica.enums.Province;
+import it.develhope.gruppoa.enums.Province;
 
 import java.util.ArrayList;
 import java.util.List;

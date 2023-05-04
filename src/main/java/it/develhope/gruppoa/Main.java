@@ -1,14 +1,8 @@
-package rubrica;
+package it.develhope.gruppoa;
 
-import rubrica.enums.Province;
-import rubrica.models.Contatto;
-import rubrica.models.Indirizzo;
+import it.develhope.gruppoa.rubrica.RubricaFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 
 
 /**
@@ -20,9 +14,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Rubrica rubrica = null;
+        RubricaFile rubrica = null;
         try {
-            rubrica = new Rubrica("rubrica.txt");
+            rubrica = new RubricaFile("rubrica.txt");
+            rubrica.init();
             rubrica.start();
         } catch (IOException e) {
             System.out.println("C'è stato un errore, impossibile scrivere sul disco, stronzo!");

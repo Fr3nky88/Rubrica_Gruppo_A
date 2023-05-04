@@ -1,67 +1,25 @@
-package rubrica;
+package it.develhope.gruppoa.rubrica;
 
-import rubrica.enums.Province;
-import rubrica.models.Contatto;
-import rubrica.models.Indirizzo;
+import it.develhope.gruppoa.RubricaInitExpetion;
+import it.develhope.gruppoa.enums.Province;
+import it.develhope.gruppoa.models.Contatto;
+import it.develhope.gruppoa.models.Indirizzo;
+import it.develhope.gruppoa.rubrica.IRubrica;
 
-import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Rubrica {
-    private static final Path CARTELLA = Path.of(System.getProperty("user.home"), "rubrica");
+public abstract class RubricaAbstract implements IRubrica {
+    protected List<Contatto> rubrica;
+    protected Scanner input;
 
+    boolean isInit;
 
-    private List<Contatto> rubrica;
-    private Scanner input;
-    private Path fileRubrica;
+    public void start() throws RubricaInitExpetion {
 
-    public Rubrica(String nomeFile) throws IOException {
-        this.fileRubrica = Path.of(CARTELLA.toString(), nomeFile);
-        this.rubrica = new ArrayList<>();
-        this.input = new Scanner(System.in).useDelimiter("\n");
-        createFile();
-        readContatti();
-        //TODO scrivere nuova linea contatto nel file creato
-
-    }
-
-    public void createFile() throws IOException {
-        try{
-            Files.createDirectory(CARTELLA);
-            Files.createFile(fileRubrica);
+        if (!isInit) {
+            throw new RubricaInitExpetion();
         }
-        catch (FileAlreadyExistsException exception)
-        {
-            System.out.println("il file esiste già");
-        }
-
-    }
-
-    public void readContatti() throws IOException {
-        List<String>linee = Files.readAllLines(fileRubrica);
-        for(String linea : linee) {
-            String[] campiContatto = linea.split(",");
-            Indirizzo i = new Indirizzo();
-            i.setVia(campiContatto[3]);
-            i.setNumeroCivico(campiContatto[4]);
-            i.setCap(campiContatto[5]);
-            i.setCitta(campiContatto[6]);
-            i.setProvincia(Province.valueOf(campiContatto[7]));
-            Contatto c = new Contatto(campiContatto[0], campiContatto[1], campiContatto[2],i);
-            rubrica.add(c);
-
-        }
-    }
-
-    public void start(){
-
-
-
 
         boolean running = true;
 
@@ -117,10 +75,6 @@ public class Rubrica {
                             }
                         }
                     } while (indirizzo.getProvincia() == null);
-
-
-
-
 
                     Contatto contatto = new Contatto(name, cognome, numeroTelefono, indirizzo);
                     rubrica.add(contatto);

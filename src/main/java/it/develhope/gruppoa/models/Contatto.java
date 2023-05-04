@@ -1,4 +1,4 @@
-package rubrica.models;
+package it.develhope.gruppoa.models;
 
 public class Contatto {
     private String nome;
