@@ -38,7 +38,8 @@ public class RubricaFile extends RubricaAbstract {
 
     }
 
-    public void readContatti() throws IOException {
+    public List<Contatto> readContatti() throws IOException {
+        List<Contatto> res = new ArrayList<>();
         List<String>linee = Files.readAllLines(fileRubrica);
         for(String linea : linee) {
             String[] campiContatto = linea.split(",");
@@ -48,16 +49,23 @@ public class RubricaFile extends RubricaAbstract {
             i.setCap(campiContatto[5]);
             i.setCitta(campiContatto[6]);
             i.setProvincia(Province.valueOf(campiContatto[7]));
-            Contatto c = new Contatto(campiContatto[0], campiContatto[1], campiContatto[2],i);
-            rubrica.add(c);
+            Contatto c = new Contatto(campiContatto[0], campiContatto[1], campiContatto[2],null, i);
+            res.add(c);
 
         }
+
+        return res;
+    }
+
+    @Override
+    public void saveContatto(Contatto c) throws Exception {
+        //TODO: Sviluppare il salva contatto sul file
     }
 
     @Override
     public void init() throws IOException {
         super.isInit = true;
         createFile();
-        readContatti();
+        rubrica = readContatti();
     }
 }

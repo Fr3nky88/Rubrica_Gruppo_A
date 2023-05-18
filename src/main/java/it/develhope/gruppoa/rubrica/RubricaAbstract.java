@@ -15,23 +15,29 @@ public abstract class RubricaAbstract implements IRubrica {
 
     boolean isInit;
 
+    public RubricaAbstract() {
+        input = new Scanner(System.in).useDelimiter("\n");
+    }
+
     public void start() throws RubricaInitExpetion {
 
         if (!isInit) {
             throw new RubricaInitExpetion();
         }
 
+        System.out.println(" *******   **     ** ******   *******   **   ******      **             ********  *******   **     ** *******  *******    *******             **    \n" +
+                "/**////** /**    /**/*////** /**////** /**  **////**    ****           **//////**/**////** /**    /**/**////**/**////**  **/////**           ****   \n" +
+                "/**   /** /**    /**/*   /** /**   /** /** **    //    **//**         **      // /**   /** /**    /**/**   /**/**   /** **     //**         **//**  \n" +
+                "/*******  /**    /**/******  /*******  /**/**         **  //**       /**         /*******  /**    /**/******* /******* /**      /**        **  //** \n" +
+                "/**///**  /**    /**/*//// **/**///**  /**/**        **********      /**    *****/**///**  /**    /**/**////  /**////  /**      /**       **********\n" +
+                "/**  //** /**    /**/*    /**/**  //** /**//**    **/**//////**      //**  ////**/**  //** /**    /**/**      /**      //**     **       /**//////**\n" +
+                "/**   //**//******* /******* /**   //**/** //****** /**     /**       //******** /**   //**//******* /**      /**       //*******        /**     /**\n" +
+                "//     //  ///////  ///////  //     // //   //////  //      //         ////////  //     //  ///////  //       //         ///////         //      // ");
+
         boolean running = true;
 
         while (running) {
-            System.out.println(" *******   **     ** ******   *******   **   ******      **             ********  *******   **     ** *******  *******    *******             **    \n" +
-                    "/**////** /**    /**/*////** /**////** /**  **////**    ****           **//////**/**////** /**    /**/**////**/**////**  **/////**           ****   \n" +
-                    "/**   /** /**    /**/*   /** /**   /** /** **    //    **//**         **      // /**   /** /**    /**/**   /**/**   /** **     //**         **//**  \n" +
-                    "/*******  /**    /**/******  /*******  /**/**         **  //**       /**         /*******  /**    /**/******* /******* /**      /**        **  //** \n" +
-                    "/**///**  /**    /**/*//// **/**///**  /**/**        **********      /**    *****/**///**  /**    /**/**////  /**////  /**      /**       **********\n" +
-                    "/**  //** /**    /**/*    /**/**  //** /**//**    **/**//////**      //**  ////**/**  //** /**    /**/**      /**      //**     **       /**//////**\n" +
-                    "/**   //**//******* /******* /**   //**/** //****** /**     /**       //******** /**   //**//******* /**      /**       //*******        /**     /**\n" +
-                    "//     //  ///////  ///////  //     // //   //////  //      //         ////////  //     //  ///////  //       //         ///////         //      // ");
+
             System.out.println("Seleziona un'operazione:");
             System.out.println("1. Aggiungi contatto");
             System.out.println("2. Cerca contatto");
@@ -75,8 +81,8 @@ public abstract class RubricaAbstract implements IRubrica {
                             }
                         }
                     } while (indirizzo.getProvincia() == null);
-
-                    Contatto contatto = new Contatto(name, cognome, numeroTelefono, indirizzo);
+                    //TODO: scrivere la parte per fare il get dell'email da tastiera
+                    Contatto contatto = new Contatto(name, cognome, numeroTelefono,null, indirizzo);
                     rubrica.add(contatto);
                     System.out.println("rubrica.models.Contatto aggiunto!");
                     break;
