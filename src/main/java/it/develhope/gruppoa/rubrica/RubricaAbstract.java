@@ -19,6 +19,8 @@ public abstract class RubricaAbstract implements IRubrica {
         input = new Scanner(System.in).useDelimiter("\n");
     }
 
+    public abstract void close() throws Exception;
+
     public void start() throws RubricaInitExpetion {
 
         if (!isInit) {
@@ -116,6 +118,11 @@ public abstract class RubricaAbstract implements IRubrica {
                     rubrica.removeIf(c -> deleteName.equals(c.getNome()) && deleteSurname.equals(c.getCognome()));
                     break;
                 case 0:
+                    try {
+                        close();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     running = false;
                     break;
                 default:

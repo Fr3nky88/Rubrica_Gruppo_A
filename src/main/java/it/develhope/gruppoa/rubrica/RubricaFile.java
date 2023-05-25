@@ -68,4 +68,9 @@ public class RubricaFile extends RubricaAbstract {
         createFile();
         rubrica = readContatti();
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

@@ -2,10 +2,13 @@ package it.develhope.gruppoa.models;
 
 import it.develhope.gruppoa.enums.Province;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Indirizzo {
+
+    private BigInteger id;
 
     private String via;
     private String numeroCivico;
@@ -13,11 +16,7 @@ public class Indirizzo {
     private String citta;
     private Province provincia;
 
-    private static List<String> province = new ArrayList<>();
-
     public Indirizzo() {
-
-        province = populateProvince();
 
     }
 
@@ -28,14 +27,13 @@ public class Indirizzo {
 //
 //    }
 
-    private List<String> populateProvince() {
-        List<String> province = new ArrayList<>();
-        province.add("PA");
-        province.add("MI");
-        province.add("RM");
-        return province;
+    public BigInteger getId() {
+        return id;
     }
 
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
 
     public String getVia() {
         return via;

@@ -1,6 +1,9 @@
 package it.develhope.gruppoa.rubrica;
 
+import it.develhope.gruppoa.dao.ContattoDao;
+import it.develhope.gruppoa.dao.IndirizzoDao;
 import it.develhope.gruppoa.models.Contatto;
+import it.develhope.gruppoa.models.Indirizzo;
 
 import java.math.BigInteger;
 import java.sql.*;
@@ -9,11 +12,29 @@ import java.util.List;
 
 public class RubricaDatabase extends RubricaAbstract {
 
-    private static final String CONNECTION_STRING = "jdbc:mysql://localhost:3306/rubrica_a?user=root&password=root";
+    private static final String CONNECTION_STRING = "jdbc:mysql://raspberrypi:3306/rubrica_a";
 
-    public RubricaDatabase() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private static final String USER = "root";
+
+    private static final String PASSWORD = "Fr3nky88?";
+
+    private Connection conn = null;
+
+    private ContattoDao contattoDao;
+
+    private IndirizzoDao indirizzoDao;
+
+    public RubricaDatabase() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         super();
         Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        conn = getConnection();
+        contattoDao = new ContattoDao(conn);
+        indirizzoDao = new IndirizzoDao(conn);
+    }
+
+    @Override
+    public void close() throws SQLException {
+        closeConnection(conn);
     }
 
     @Override
@@ -24,71 +45,7 @@ public class RubricaDatabase extends RubricaAbstract {
 
     @Override
     public List<Contatto> readContatti() throws Exception {
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        List<Contatto> res = new ArrayList<>();
-        try {
-            conn = getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Contatto");
-
-            // or alternatively, if you don't know ahead of time that
-            // the query will be a SELECT...
-
-            if (stmt.execute("SELECT * FROM Contatto")) {
-                rs = stmt.getResultSet();
-
-            }
-
-            while (rs.next()) {
-                Contatto c = new Contatto();
-                c.setId(BigInteger.valueOf(rs.getInt("id")));
-                c.setNome(rs.getString("nome"));
-                c.setCognome(rs.getString("cognome"));
-                c.setTelefono(rs.getString("telefono"));
-                c.setEmail(rs.getString("email"));
-                res.add(c);
-            }
-
-            // Now do something with the ResultSet ....
-        }
-        catch (SQLException ex){
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        finally {
-            // it is a good idea to release
-            // resources in a finally{} block
-            // in reverse-order of their creation
-            // if they are no-longer needed
-
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqlEx) { } // ignore
-
-                rs = null;
-            }
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) { } // ignore
-
-                stmt = null;
-            }
-            if (conn != null) {
-                try {
-                    closeConnection(conn);
-                } catch (SQLException sqlEx) { } // ignore
-
-                conn = null;
-            }
-        }
-        return res;
+        return contattoDao.getAllContatti();
     }
 
     @Override
@@ -97,7 +54,7 @@ public class RubricaDatabase extends RubricaAbstract {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(CONNECTION_STRING);
+        return DriverManager.getConnection(CONNECTION_STRING, USER, PASSWORD);
     }
 
     private void closeConnection(Connection c) throws SQLException {
